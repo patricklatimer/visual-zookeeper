@@ -72,6 +72,7 @@ export const getChildren = (parent?: ZkNode): Promise<ZkNode[]> => {
                 if (error) {
                     reject(error);
                 }
+                children.sort();
                 resolve(children.map(child => {
                     return new ZkNode(
                         child, '',
