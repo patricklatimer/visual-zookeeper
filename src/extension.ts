@@ -43,6 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
 			zkStatProvider.onDidChangeEmitter.fire(uri);
 			const doc = await vscode.workspace.openTextDocument(uri); // calls back into the provider
 			await vscode.window.showTextDocument(doc, { preview: false });
+
 		} else {
 			vscode.window.showInformationMessage('[Visual ZooKeeper] node path is empty');
 		}
@@ -55,14 +56,15 @@ export function activate(context: vscode.ExtensionContext) {
 		zooKeeperProvider.refresh()
 	));
 
-	context.subscriptions.push(vscode.commands.registerCommand('visualZooKeeper.configureServer', async () => {
-		let server = await vscode.window.showInputBox({
-			title: 'Configure ZooKeeper Server',
-			placeHolder: 'Comma separated host:port pairs,each represents a ZooKeeper server.'
-		});
-		if (server) {
-			zkClient.createClient(server);
+	context.subscriptions.push(vscode.commands.registerCommand('visualZooKeeper.configureServer', async (server: string) => {
+		if (!server) {
+			let input = await vscode.window.showInputBox({
+				title: 'Configure ZooKeeper Server',
+				placeHolder: 'Comma separated host:port pairs,each represents a ZooKeeper server.'
+			});
+			if (input) { server = input; };
 		}
+		zkClient.createClient(server);
 	}));
 
 
@@ -120,6 +122,14 @@ export function activate(context: vscode.ExtensionContext) {
 			let filePath = '/' + path.split("/").join(BIG_SOLIDUS);
 			const uri = vscode.Uri.parse(zkfsScheme + ':' + filePath);
 			vscode.commands.executeCommand("vscode.open", uri, {}, path);
+			const doc = await vscode.workspace.openTextDocument(uri);
+			await vscode.window.showTextDocument(doc, { preview: false });
+
+			if (vscode.window.activeTextEditor?.document.languageId === "plaintext") {
+				let lang = vscode.workspace.getConfiguration().get("visualZooKeeper.nodeLanguage", "yaml");
+				await vscode.languages.setTextDocumentLanguage(doc, lang);
+			}
+
 		} else {
 			vscode.window.showInformationMessage('[Visual ZooKeeper] node path is empty');
 		}
@@ -130,6 +140,11 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.showInformationMessage('[Visual ZooKeeper] Successfully write path to clipboard');
 	}));
 
+	const server = vscode.workspace.getConfiguration().get("visualZooKeeper.zooKeeperServer", false);
+	if (server) {
+		console.log("Server is set to " + server);
+		vscode.commands.executeCommand("visualZooKeeper.configureServer", server);
+	}
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "visual-zookeeper" is now active!');

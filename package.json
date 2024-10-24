@@ -3,12 +3,17 @@
 	"displayName": "Visual ZooKeeper",
 	"publisher": "gaoliang",
 	"description": "Visually manage your ZooKeeper in Visual Studio Code.",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"repository": "https://github.com/gaoliang/visual-zookeeper",
 	"license": "SEE LICENSE IN LICENSE",
 	"icon": "media/zk-logo.png",
-	"categories": ["Visualization", "Other"],
-	"keywords": ["zookeeper"],
+	"categories": [
+		"Visualization",
+		"Other"
+	],
+	"keywords": [
+		"zookeeper"
+	],
 	"engines": {
 		"vscode": "^1.65.0"
 	},
@@ -30,6 +35,20 @@
 					"icon": "media/zookeeper.svg"
 				}
 			]
+		},
+		"configuration": {
+			"title": "Visual ZooKeeper",
+			"properties": {
+				"visualZooKeeper.zooKeeperServer": {
+					"type": "string",
+					"description": "Comma separated host:port pairs, each represents a ZooKeeper server."
+				},
+				"visualZooKeeper.nodeLanguage": {
+					"type": "string",
+					"default": "plaintext",
+					"description": "Default language mode used to edit ZK nodes without an extension"
+				}
+			}
 		},
 		"commands": [
 			{
@@ -87,7 +106,7 @@
 				{
 					"command": "visualZooKeeper.copyPath",
 					"when": "view == visualZooKeeper && viewItem == zkNode"
-				  }
+				}
 			],
 			"view/title": [
 				{
