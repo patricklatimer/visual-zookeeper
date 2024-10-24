@@ -19,14 +19,41 @@ Visually manage your ZooKeeper in Visual Studio Code.
 
 ## Extension Settings
 
-When using Visual ZooKeeper for the first time, you need to configure the server address of zk, you can click the button or use the command palette to call out the configuration page.
+- `visualZooKeeper.zooKeeperServer`, default ``
+- `visualZooKeeper.nodeLanguage`, default `yaml`
 
-![config](screenshots/6-config.png)
+![settings](screenshots/settings.PNG)
 
 
-## Known Issues
+## Commands
+
+- `visualZooKeeper.editNode`
+- `visualZooKeeper.refreshNode`
+- `visualZooKeeper.configureServer`
+- `visualZooKeeper.addNode`
+- `visualZooKeeper.viewNodeStat`
+- `visualZooKeeper.copyPath`
+
+## Development
+
+Follow the vscode extension documentation: https://code.visualstudio.com/api/get-started/your-first-extension 
+
+- Install node.js and Git
+- `npm install -g yo generator-code`
+- `npm install -g yarn`
+- `yarn` to install the project dependencies
+- Use vsce to build the .vsix file for installation https://code.visualstudio.com/api/working-with-extensions/publishing-extension 
+    - `npm install -g @vscode/vsce`
+    - Build with `vsce package`
+
 
 ## Release Notes
+
+### 1.0.4
+
+- Alphabetized ZK nodes in explorer
+- Default language setting for nodes without extension
+- Default ZK host configured on startup
 
 ### 1.0.0
 
