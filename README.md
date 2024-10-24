@@ -22,8 +22,6 @@ Visually manage your ZooKeeper in Visual Studio Code.
 - `visualZooKeeper.zooKeeperServer`, default ``
 - `visualZooKeeper.nodeLanguage`, default `yaml`
 
-![settings](screenshots/settings.PNG)
-
 
 ## Commands
 
